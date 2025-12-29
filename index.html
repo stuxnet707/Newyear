@@ -2653,14 +2653,20 @@
 
             setInterval(() => {
                 const santaRect = santa.getBoundingClientRect();
+                const isMobile = window.innerWidth < 600;
                 if (santaRect.left > 0 && santaRect.left < window.innerWidth) {
                     const word = document.createElement('span');
                     word.className = 'love-message';
                     word.innerText = loveWords[wordIndex % loveWords.length];
-                    // Keep text within screen bounds
-                    let leftPos = santaRect.left + 50 + Math.random() * 30;
-                    leftPos = Math.min(leftPos, window.innerWidth - 150);
-                    leftPos = Math.max(leftPos, 10);
+
+                    // On mobile: random position across screen, on desktop: follow Santa
+                    let leftPos;
+                    if (isMobile) {
+                        leftPos = 10 + Math.random() * (window.innerWidth - 120);
+                    } else {
+                        leftPos = santaRect.left + 50 + Math.random() * 30;
+                        leftPos = Math.min(leftPos, window.innerWidth - 150);
+                    }
                     word.style.left = leftPos + 'px';
                     word.style.top = (santaRect.top + 40) + 'px';
                     document.body.appendChild(word);
