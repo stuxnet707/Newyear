@@ -201,7 +201,7 @@
             pointer-events: none;
             z-index: 49;
             animation: loveFall 4s ease-out forwards;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
             color: #ff6b9d;
@@ -211,6 +211,9 @@
             border: none;
             padding: 0;
             margin: 0;
+            max-width: calc(100vw - 20px);
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         @keyframes snowFall {
@@ -2654,7 +2657,11 @@
                     const word = document.createElement('span');
                     word.className = 'love-message';
                     word.innerText = loveWords[wordIndex % loveWords.length];
-                    word.style.left = (santaRect.left + 100 + Math.random() * 50) + 'px';
+                    // Keep text within screen bounds
+                    let leftPos = santaRect.left + 50 + Math.random() * 30;
+                    leftPos = Math.min(leftPos, window.innerWidth - 150);
+                    leftPos = Math.max(leftPos, 10);
+                    word.style.left = leftPos + 'px';
                     word.style.top = (santaRect.top + 40) + 'px';
                     document.body.appendChild(word);
                     setTimeout(() => word.remove(), 4000);
